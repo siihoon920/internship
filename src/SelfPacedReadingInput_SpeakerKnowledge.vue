@@ -1,20 +1,7 @@
 <docs>
 
   ```vue
-  <Experiment>
-      <Screen>
-          <SelfPacedReadingInput
-              :chunks="['This', 'is', 'a', 'nice', 'and', 'very', 'long', 'text']"
-              word-pos="next"
-              underline="sentence"
-              trigger="$"
-              instructions="Press $ to reveal the next word."
-              :response-times.sync="$magpie.measurements.times"
-              @end="$magpie.saveAndNextScreen()" />
-      </Screen>
-  
-      <DebugResultsScreen />
-  </Experiment>
+    selfPacedReadingInput adjusted for Speaker Knowledge Experiment
   ```
   
   </docs>
@@ -92,14 +79,14 @@
   </template>
   
   <script>
-  import KeypressInput from '/Users/sihoonoh/Desktop/internship/test_run/node_modules/magpie-base/src/components/inputs/KeypressInput.vue';
-  import SerialInput from '/Users/sihoonoh/Desktop/internship/test_run/node_modules/magpie-base/src/components/inputs/SerialInput';
-  import TimerStop from '/Users/sihoonoh/Desktop/internship/test_run/node_modules/magpie-base/src/components/helpers/TimerStop';
-  import TimerStart from '/Users/sihoonoh/Desktop/internship/test_run/node_modules/magpie-base/src/components/helpers/TimerStart';
-  import Wait from '/Users/sihoonoh/Desktop/internship/test_run/node_modules/magpie-base/src/components/helpers/Wait';
+  import KeypressInput from '../node_modules/magpie-base/src/components/inputs/KeypressInput.vue';
+  import SerialInput from '../node_modules/magpie-base/src/components/inputs/SerialInput';
+  import TimerStop from '../node_modules/magpie-base/src/components/helpers/TimerStop';
+  import TimerStart from '../node_modules/magpie-base/src/components/helpers/TimerStart';
+  import Wait from '../node_modules/magpie-base/src/components/helpers/Wait';
   
   export default {
-    name: 'SelfPacedReadingInputSpecific',
+    name: 'SelfPacedReadingInput_SpeakerKnowledge',
     components: { Wait, TimerStart, TimerStop, SerialInput, KeypressInput },
     props: {
       context: { type: Array, required: true },

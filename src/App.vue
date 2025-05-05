@@ -18,7 +18,7 @@
       <Screen v-for="(trial,i) in practice_trial_info">
         <Slide>
           <p>{{$magpie.currentScreenIndex}}</p>
-          <SelfPacedReadingInputSpecific
+          <SelfPacedReadingInput_SpeakerKnowledge
             :context="trial.context.split('|')"
             :triggersentence="trial.trigger.split('|')"
             :continuation="trial.continuation.split('|')"
@@ -56,7 +56,7 @@
 
         <Slide>
           <p>{{$magpie.currentScreenIndex}}</p>
-          <SelfPacedReadingInputSpecific
+          <SelfPacedReadingInput_SpeakerKnowledge
             :context="trial.context.split('|')"
             :triggersentence="trial.trigger.split('|')"
             :continuation="trial.continuation.split('|')"
@@ -77,7 +77,7 @@
         
 
       </Screen>
-      <DebugResultsScreen/>
+      <DebugResultsScreen_edited/>
 
 
 
@@ -87,12 +87,13 @@
 <script>
 import _ from 'lodash';
 import {practice_trial_info, trial_info} from './trials.js';
-import SelfPacedReadingInputSpecific from '/src/SelfPacedReadingInputSpecific.vue';
-import DebugResultsScreen from 'magpie-base/src/components/screens/DebugResultsScreen.vue';
+import SelfPacedReadingInput_SpeakerKnowledge from './SelfPacedReadingInput_SpeakerKnowledge.vue';
+import DebugResultsScreen_edited from './DebugResultsScreen_edited.vue';
 export default {
   name: 'App',
   components: {
-    SelfPacedReadingInputSpecific
+    SelfPacedReadingInput_SpeakerKnowledge,
+    DebugResultsScreen_edited
   },
   data() {
     return {

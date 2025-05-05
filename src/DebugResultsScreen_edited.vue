@@ -27,11 +27,11 @@ Once you are gaoing live with your experiment, you can use the SubmitResultsScre
 </template>
 
 <script>
-import Screen from '../Screen';
-import Slide from '../Slide';
+import Screen from '../node_modules/magpie-base/src/components/Screen.vue';
+import Slide from '../node_modules/magpie-base/src/components/Slide.vue';
 
 export default {
-  name: 'DebugResultsScreen',
+  name: 'DebugResultsScreen_edited',
   components: { Slide, Screen },
   props: {},
   data() {
