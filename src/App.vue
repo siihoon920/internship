@@ -15,62 +15,68 @@
       </Screen>
 
       
-      <template v-for="(trial,i) in practice_trial_info">
-            <Screen>
-              <p>{{$magpie.currentScreenIndex}}</p>
-              <SelfPacedReadingInputSpecific
-                :context="trial.context.split('|')"
-                :triggersentence="trial.trigger.split('|')"
-                :continuation="trial.continuation.split('|')"
-                :underline="'words'"
-                @end="$magpie.nextScreen()"
-              />
-            </Screen>
+      <Screen v-for="(trial,i) in practice_trial_info">
+        <Slide>
+          <p>{{$magpie.currentScreenIndex}}</p>
+          <SelfPacedReadingInputSpecific
+            :context="trial.context.split('|')"
+            :triggersentence="trial.trigger.split('|')"
+            :continuation="trial.continuation.split('|')"
+            :underline="'words'"
+            :response-times.sync="RT"
+            @end="endSelfPacedReading(trial)"
+          />
+        </Slide>
 
-            <Screen>
-              <p>{{$magpie.currentScreenIndex}}</p>
+        <Slide>
+          <p>{{$magpie.currentScreenIndex}}</p>
 
-              <p>{{trial.question}}</p>
-              <ForcedChoiceInput
-                :options="[trial.option1, trial.option2]"
-                :question="trial.question"
-                :response.sync="practice_continues"
-                @update:response="practice_continues==='yes'?$magpie.nextScreen():$magpie.nextScreen('get_ready')"
-              />
-            </Screen>
-      </template>
+          <p>{{trial.question}}</p>
+          <ForcedChoiceInput
+            :options="[trial.option1, trial.option2]"
+            :question="trial.question"
+            :response.sync="answer"
+            @update:response="endForcedChoice(trial), ($magpie.measurements.answer==='yes'?$magpie.saveAndNextScreen():$magpie.nextScreen('get_ready'))"
+          />
+        </Slide>
+      </Screen>
           
 
-      
+    
 
       <Screen title="Get ready" label="get_ready">
         The practice trials are now complete. When you are ready to begin the study, click 'Begin'.
         <button @click="$magpie.nextScreen()">BEGIN THE EXPERIMENT </button>
       </Screen>
 
-      <
+      
 
-      <template v-for="(trial,i) in trial_info">
+      <Screen v-for="(trial,i) in trial_info">
 
 
-        <Screen>
+        <Slide>
           <p>{{$magpie.currentScreenIndex}}</p>
-
           <SelfPacedReadingInputSpecific
             :context="trial.context.split('|')"
             :triggersentence="trial.trigger.split('|')"
             :continuation="trial.continuation.split('|')"
             :underline="'words'"
-            @end="$magpie.nextScreen()"
+            :response-times.sync="RT"
+            @end="endSelfPacedReading(trial)"
           />
-        </Screen>
-
-        <ForcedChoiceScreen
+        </Slide>
+        <Slide>
+          <p>{{trial.question}}</p>
+          <ForcedChoiceInput
           :options="['Yes', 'No']"
-          :question="trial.question"
+          :response.sync="answer"
+          @update:response="endForcedChoice(trial), $magpie.saveAndNextScreen()
+"
         />
+        </Slide>
+        
 
-      </template>
+      </Screen>
       <DebugResultsScreen/>
 
 
@@ -92,7 +98,8 @@ export default {
     return {
       trial_info,
       practice_trial_info,
-      practice_continues:'yes'
+      RT : [],
+      answer : 'unavailable'
     };
   },
   computed: {
@@ -103,8 +110,19 @@ export default {
     
   },
   methods: {
-    test(){
-      console.log('Test function called: and answer is', this.practice_continues);
+    endSelfPacedReading(trial){
+      this.$magpie.measurements.context = trial.context;
+      this.$magpie.measurements.RT_context = this.RT[0];
+      this.$magpie.measurements.trigger = trial.trigger;
+      this.$magpie.measurements.RT_trigger = this.RT[1];
+      this.$magpie.measurements.continuation = trial.continuation;
+      this.$magpie.measurements.RT_continuation = this.RT[2];
+      this.$magpie.nextSlide();
+    },
+    endForcedChoice(trial){
+      this.$magpie.measurements.question = trial.question;
+      this.$magpie.measurements.correct_answer = trial.correct_answer;
+      this.$magpie.measurements.answer = this.answer
     }
   }
 };

@@ -144,7 +144,6 @@
         console.log('Resetting wordCount to 1');
       },
       end() {
-        console.log('End method called');
         this.$emit('update:response-times', this.RT);
         this.$emit('update:timeout', this.timeout);
         this.$emit('end');
